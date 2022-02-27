@@ -5,12 +5,14 @@
 !pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
 
 # Install mmdetection
-%cd /content/260-PGD
 !rm -rf mmdetection
 !git clone https://github.com/open-mmlab/mmdetection.git
 %cd mmdetection
 
 !pip install -e .
+
+%cd .. 
+%cp -r mmdetection /content/260-PGD/data/
 
 # install Pillow 7.0.0 back in order to avoid bug in colab
 !pip install Pillow==7.0.0
