@@ -14,7 +14,10 @@ from mmdet import __version__
 from mmdet.apis import init_detector,inference_detector
 from mmdet.apis.inference import LoadImage
 import warnings
-from mmdet.core import tensor2imgs
+try:
+    from mmdet.core import tensor2imgs
+except:
+    from mmcv.image import tensor2imgs
 import argparse
 import matplotlib.pyplot as plt
 import mmcv
@@ -22,7 +25,7 @@ import torch
 from mmcv.ops import RoIAlign, RoIPool
 from mmcv.parallel import collate, scatter
 from mmcv.runner import load_checkpoint
-from mmdet.core import tensor2imgs,bbox2roi, multiclass_nms
+from mmdet.core import bbox2roi, multiclass_nms
 from mmdet.core import get_classes
 from mmdet.datasets.pipelines import Compose
 from mmdet.models import build_detector
@@ -151,8 +154,8 @@ show_score_thr=0.3
 cfg = Config.fromfile(config)
 
 model = cfg.model
-train_cfg = cfg.train_cfg
-test_cfg = cfg.test_cfg
+train_cfg = cfg.get("train_cfg")
+test_cfg = cfg.get("test_cfg")
 model['pretrained'] = None
 detector = build_detector(model, train_cfg=train_cfg, test_cfg=test_cfg)
 device='cuda:0'

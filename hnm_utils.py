@@ -2,7 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchvision import transforms
-from mmdet.core import tensor2imgs,bbox2roi, multiclass_nms
+from mmdet.core import bbox2roi, multiclass_nms
+try:
+    from mmdet.core import tensor2imgs
+except:
+    from mmcv.image import tensor2imgs
 import numpy as np
 import os
 from tool.darknet2pytorch import *
