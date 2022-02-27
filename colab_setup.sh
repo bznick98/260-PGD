@@ -11,9 +11,6 @@ cd mmdetection
 
 pip install -e .
 
-cd .. 
-cp -R mmdetection/ /content/260-PGD/data/
-
 # install Pillow 7.0.0 back in order to avoid bug in colab
 pip install Pillow==7.0.0
 cd /content/260-PGD
