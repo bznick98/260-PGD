@@ -3,7 +3,7 @@ cp /content/gdrive/MyDrive/data.zip /content/260-PGD
 cd /content/260-PGD
 unzip data
 cd /content/260-PGD/data
-cp -r content/260-PGD/mmdetection/ /content/260-PGD/data/
+cp -av content/260-PGD/mmdetection/ /content/260-PGD/data/
 unzip eval_code
 unzip images
 mv images/* eval_code/select1000_new/
