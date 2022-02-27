@@ -6,4 +6,5 @@ scipy
 scikit-image
 tqdm
 mmdet
-mmcv
+mmcv-full
+mmcv==0.6.2
