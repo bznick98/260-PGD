@@ -80,7 +80,7 @@ if __name__ == "__main__":
     # load pre-trained model
     model = load_model()
     
-    # infer all images
+    # load image file paths
     image_dir = "images" # TODO: make it argparse
     files = os.listdir(image_dir)
     files.sort()
