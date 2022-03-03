@@ -1,3 +1,9 @@
+# To run `mask_pgd.py`
+1. clone this repo
+2. (optional) create a virtual environment and activate it
+3. `pip install -r requirements.txt`
+4. `python mask_pgd.py`
+
 # HNM-PGD
 Code for paper 'Fooling Object Detectors: Adversarial Attacks by Half-Neighbor Masks'
 
