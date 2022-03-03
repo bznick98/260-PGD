@@ -76,12 +76,33 @@ def draw_bbox(img, detections):
     plt.axis('off')
     plt.show()
 
+def calculate_loss(detections, threshold, loss_fn=torch.nn.BCELoss(reduction = 'sum')):
+    """
+    After apply score threshold, calculate the loss between:
+        1. model predicted confidence score between [0, 1]   (for each detected object)
+        2. an assumed truth score with confidence = 1        (for each "truth" object)
+    @params:
+        detections: detection result from model inference (should be a dict)
+        thresold: only predicted scores above this threshold will be kept in loss computation
+        loss_fn: loss function, default=torch.nn.BCELoss(reduction = 'sum')
+    @return:
+        loss: scalar value
+    """
+    predicted_scores = detections['scores'].detach()
+    # apply score thresold
+    predicted_scores = predicted_scores[predicted_scores > threshold]
+    # generate "truth" score
+    target_scores = torch.ones_like(predicted_scores)
+    # compute loss
+    loss = loss_fn(predicted_scores, target_scores)
+    return loss
+
 if __name__ == "__main__":
     # load pre-trained model
     model = load_model()
     
     # load image file paths
-    image_dir = "images" # TODO: make it argparse
+    image_dir = "single_image" # TODO: make it argparse
     files = os.listdir(image_dir)
     files.sort()
 
@@ -96,16 +117,16 @@ if __name__ == "__main__":
         image = torch.Tensor(image) / 255
 
         # infer single image
-        res = infer_single(model, image)
+        detections = infer_single(model, image)
 
         # visualize detection result
         # tranform image from (NxCxHxW) to (HxWxC) for plotting
         image_PIL = transforms.ToPILImage()(image[0]).convert('RGB')
-        draw_bbox(image_PIL, res)
+        # draw_bbox(image_PIL, detections)
 
         # TODO: start attack iterations
-
-
+        # calculate loss
+        loss = calculate_loss(detections, threshold=0.5)
 
         break
 
